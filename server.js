@@ -34,14 +34,14 @@ app.use("/inventory", inventoryRoute)
 
 
 
-app.use((err, req, res, next) => {
-  console.error(err.stack)
+// app.use((err, req, res, next) => {
+//   console.error(err.stack)
 
-  res.status(err.status || 500).render("errors/error", {
-    title: err.status === 404 ? "Page Not Found" : "Server Error",
-    message: err.message
-  })
-})
+//   res.status(err.status || 500).render("errors/error", {
+//     title: err.status === 404 ? "Page Not Found" : "Server Error",
+//     message: err.message
+//   })
+// })
 
 app.use((req, res, next) => {
   const err = new Error("Sorry, page not found")
@@ -50,6 +50,18 @@ app.use((req, res, next) => {
 })
 
 
+// Error Handling Middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack)
+
+  const status = err.status || 500
+  const title = status === 404 ? "Page Not Found" : "Server Error"
+
+  res.status(status).render("errors/error", {
+    title,
+    message: err.message,
+  })
+})
 
 
 

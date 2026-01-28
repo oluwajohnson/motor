@@ -180,7 +180,8 @@ h4,h3{
 }
 
 .vehicle-detail {
-  display: flex;
+  /* display: flex; */
+  flex-direction: row;
   flex-wrap: wrap;
   gap: 2rem;
 }
