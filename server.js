@@ -39,7 +39,8 @@ app.use((err, req, res, next) => {
 
   res.status(err.status || 500).render("errors/error", {
     title: err.status === 404 ? "Page Not Found" : "Server Error",
-    message: err.message
+    message: err.message,
+     error: process.env.NODE_ENV === "development" ? err : {}
   })
 })
 
