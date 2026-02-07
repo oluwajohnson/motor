@@ -5,32 +5,96 @@
 /* ***********************
  * Require Statements
  *************************/
+const session = require("express-session")
+const flash = require("connect-flash")
+
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts")
 const inventoryRoute = require("./routes/inventoryRoute")
+
 const errorRoute = require("./routes/errorRoute")
 
 const static = require("./routes/static")
 const app = express();
-app.use(expressLayouts);
 
+
+
+
+/* ---------- ADD THIS BLOCK ---------- */
+app.use(
+  session({
+    secret: "secret-key",
+    resave: false,
+    saveUninitialized: true,
+  })
+)
+
+app.use(flash())
+
+app.use((req, res, next) => {
+  res.locals.messages = req.flash()
+  next()
+})
+/* ---------- END BLOCK ---------- */
+
+
+
+
+app.use(expressLayouts);
 app.set("view engine", "ejs");
 app.set("views", "./views");
 app.set("layout", "./layouts/layout")
 
 app.use(express.static("public"));
 
-app.get("/", (req, res) => {
-  res.render("index");
-});
+// 🔥 REQUIRED FOR req.body
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
+
+
+
+
+app.use(session({
+  secret: "supersecret",
+  resave: false,
+  saveUninitialized: true,
+}))
+
+app.use(flash())
+
+// Make flash available to ALL views
+app.use((req, res, next) => {
+  res.locals.messages = req.flash()
+  next()
+})
+
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
+
 
 
 /* ***********************
  * Routes
  *************************/
+
+app.get("/", (req, res) => {
+  res.render("index");
+});
+
 app.use(static)
-app.use(errorRoute)
+
 app.use("/inventory", inventoryRoute)
+app.use("/inv", inventoryRoute)
+
+
+app.use(errorRoute)
+
+// 404 handler
+app.use((req, res, next) => {
+  const err = new Error("Sorry, page not found")
+  err.status = 404
+  next(err)
+})
 
 
 
@@ -44,11 +108,14 @@ app.use((err, req, res, next) => {
   })
 })
 
-app.use((req, res, next) => {
-  const err = new Error("Sorry, page not found")
-  err.status = 404
-  next(err)
-})
+
+
+
+
+
+
+
+
 
 
 // // Error Handling Middleware
