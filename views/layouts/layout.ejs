@@ -4,6 +4,9 @@
 
 <body>
     <div class="container">
+        <% if (messages.notice) { %>
+  <div class="notice"><%= messages.notice %></div>
+<% } %>
         <%- include("../partials/header") %>
         <%- include("../partials/navigation") %>
 

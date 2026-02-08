@@ -22,6 +22,37 @@ invCont.buildByClassificationId = async function (req, res, next) {
   }
 }
 
+
+
+// invCont.buildByClassificationId = async (req, res, next) => {
+//   try {
+//     const classification_id = parseInt(req.params.classificationId)
+
+//     // 🔒 guard clause
+//     if (isNaN(classification_id)) {
+//       const err = new Error("Invalid classification id")
+//       err.status = 400
+//       throw err
+//     }
+
+//     const data = await invModel.getInventoryByClassificationId(classification_id)
+
+//     const nav = await utilities.getNav()
+
+//     res.render("inventory/classification", {
+//       title: data[0]?.classification_name || "Vehicles",
+//       nav,
+//       inventory: data
+//     })
+//   } catch (err) {
+//     next(err)
+//   }
+// }
+
+
+
+
+
 /* ***************************
  * Inventory Detail
  * *************************** */
@@ -57,12 +88,12 @@ invCont.addClassification = async function (req, res) {
   const result = await invModel.addClassification(classification_name)
 
   if (result) {
-    req.flash("success", "Classification added successfully.")
-    res.redirect("/inv/")
-  } else {
-    req.flash("error", "Classification could not be added.")
-    res.redirect("/inv/add-classification")
-  }
+  req.flash("notice", "Inventory saved successfully.")
+  res.redirect("/inv")
+} else {
+  req.flash("notice", "Sorry, inventory was not saved.")
+  res.redirect("/inv/add-inventory")
+}
 }
 
 invCont.buildAddClassification = async function (req, res, next) {
@@ -99,6 +130,50 @@ invCont.buildInventory = async function (req, res, next) {
     nav
   })
 }
+
+
+
+invCont.addInventory = async function (req, res) {
+  const nav = await utilities.getNav()
+
+  const {
+    classification_id,
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color
+  } = req.body
+
+  const result = await invModel.addInventory(
+    classification_id,
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color
+  )
+
+  if (result) {
+  req.flash("success", "Inventory successfully saved.")
+  return res.redirect("/inv")
+}
+ else {
+    req.flash("error", "Inventory item could not be added.")
+    res.redirect("/inv/add-inventory")
+  }
+}
+
+
+
 
 
 

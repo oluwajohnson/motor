@@ -195,6 +195,34 @@ h4,h3{
 
 
 
+/* ///--------Add Inventory CSS----------------- */
+
+.inventory-form {
+  max-width: 600px;
+}
+
+.inventory-form label {
+  display: block;
+  margin-top: 1rem;
+}
+
+.inventory-form input,
+.inventory-form textarea,
+.inventory-form select {
+  width: 100%;
+  padding: 0.5rem;
+}
+
+.inventory-form button {
+  margin-top: 1.5rem;
+  padding: 0.7rem;
+  font-weight: bold;
+}
+
+
+
+
+
 @media (max-width: 768px) {
   .vehicle-detail {
     grid-template-columns: 1fr;
