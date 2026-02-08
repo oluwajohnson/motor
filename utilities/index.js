@@ -1,5 +1,7 @@
 
 const messages = require("./messages")
+const invModel = require("../models/inventory-model")
+
 const Util = {}
 
 
@@ -75,6 +77,32 @@ Util.buildClassificationList = async function (classification_id = null) {
   classificationList += "</select>"
   return classificationList
 }
+
+
+
+
+Util.getNav = async function () {
+  const data = await invModel.getClassifications()
+
+  let nav = '<ul>'
+  nav += '<li><a href="/" title="Home">Home</a></li>'
+
+  data.rows.forEach((row) => {
+    nav += `<li>
+      <a href="/inv/type/${row.classification_id}" 
+         title="View ${row.classification_name} vehicles">
+         ${row.classification_name}
+      </a>
+    </li>`
+  })
+
+  nav += '</ul>'
+  return nav
+}
+
+
+
+
 
 Util.handleErrors = (fn) => {
   return async (req, res, next) => {

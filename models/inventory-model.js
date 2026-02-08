@@ -38,10 +38,20 @@ async function addClassification(classification_name) {
   }
 }
 
-
+async function getClassifications() {
+  try {
+    const data = await pool.query(
+       "SELECT classification_id, classification_name FROM classification ORDER BY classification_name"
+    )
+    return data
+  } catch (error) {
+    throw error
+  }
+}
 
 module.exports = {
   getInventoryByClassificationId,
   getInventoryById,
   addClassification,
+  getClassifications,
 }

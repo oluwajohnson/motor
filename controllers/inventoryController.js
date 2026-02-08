@@ -73,21 +73,40 @@ invCont.buildAddClassification = async function (req, res, next) {
 
 
 invCont.buildAddInventory = async function (req, res) {
-  let classificationList = await utilities.buildClassificationList()
+  const classificationSelect = await utilities.buildClassificationList()
 
   res.render("inventory/add-inventory", {
     title: "Add Inventory",
-    classificationList,
+    classificationSelect,
     errors: null,
+
+    // 👇 sticky defaults
+    inv_make: "",
+    inv_model: "",
+    inv_year: "",
+    inv_price: "",
+    inv_miles: "",
+    inv_color: "",
+    inv_description: "",
+    classification_id: null,
+  })
+}
+
+invCont.buildInventory = async function (req, res, next) {
+  const nav = await utilities.getNav()
+  res.render("inventory/management", {
+    title: "Inventory Management",
+    nav
   })
 }
 
 
-invCont.buildAddInventory = async function (req, res) {
-  res.render("inventory/add-inventory", {
-    title: "Add Inventory"
-  })
-}
+
+// invCont.buildAddInventory = async function (req, res) {
+//   res.render("inventory/add-inventory", {
+//     title: "Add Inventory"
+//   })
+// }
 
 
 

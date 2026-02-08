@@ -14,6 +14,7 @@ const inventoryRoute = require("./routes/inventoryRoute")
 
 const errorRoute = require("./routes/errorRoute")
 
+const utilities = require("./utilities")
 const static = require("./routes/static")
 const app = express();
 
@@ -47,22 +48,18 @@ app.set("layout", "./layouts/layout")
 
 app.use(express.static("public"));
 
-// 🔥 REQUIRED FOR req.body
-app.use(express.urlencoded({ extended: true }))
-app.use(express.json())
 
 
 
 
 app.use(session({
-  secret: "supersecret",
+  secret: "secret",
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: true
 }))
 
 app.use(flash())
 
-// Make flash available to ALL views
 app.use((req, res, next) => {
   res.locals.messages = req.flash()
   next()
@@ -71,7 +68,10 @@ app.use((req, res, next) => {
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
-
+app.use(async (req, res, next) => {
+  res.locals.nav = await utilities.getNav()
+  next()
+})
 
 /* ***********************
  * Routes
