@@ -7,15 +7,23 @@
  *************************/
 const session = require("express-session")
 const flash = require("connect-flash")
+require("dotenv").config()
+
 
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts")
 const inventoryRoute = require("./routes/inventoryRoute")
+const cookieParser = require("cookie-parser")
 
 const errorRoute = require("./routes/errorRoute")
 
 const utilities = require("./utilities")
 const static = require("./routes/static")
+const authUtil = require("./utilities/auth")
+const accountRoute = require("./routes/accountRoute")
+
+
+
 const app = express();
 
 
@@ -31,6 +39,12 @@ app.use(
 )
 
 app.use(flash())
+app.use(cookieParser())
+// app.use(utilities.checkLogin)
+
+app.use(authUtil.checkJWTToken)
+
+
 
 app.use((req, res, next) => {
   res.locals.messages = req.flash()
@@ -52,21 +66,22 @@ app.use(express.static("public"));
 
 
 
-app.use(session({
-  secret: "secret",
-  resave: false,
-  saveUninitialized: true
-}))
+// app.use(session({
+//   secret: "secret",
+//   resave: false,
+//   saveUninitialized: true
+// }))
 
-app.use(flash())
+// app.use(flash())
 
-app.use((req, res, next) => {
-  res.locals.messages = req.flash()
-  next()
-})
+// app.use((req, res, next) => {
+//   res.locals.messages = req.flash()
+//   next()
+// })
 
-app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
 
 app.use(async (req, res, next) => {
   res.locals.nav = await utilities.getNav()
@@ -85,9 +100,16 @@ app.use(static)
 
 app.use("/inventory", inventoryRoute)
 app.use("/inv", inventoryRoute)
+app.use("/account", accountRoute)
+
+// app.use(errorRoute)
 
 
-app.use(errorRoute)
+
+app.get("/test", (req, res) => {
+  res.send("Server routing works")
+})
+
 
 // 404 handler
 app.use((req, res, next) => {

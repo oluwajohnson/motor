@@ -1,6 +1,7 @@
 
 const messages = require("./messages")
 const invModel = require("../models/inventory-model")
+const jwt = require("jsonwebtoken")
 
 const Util = {}
 
@@ -124,6 +125,24 @@ Util.handleErrors = (fn) => async (req, res, next) => {
     next(err)
   }
 }
+
+
+Util.checkLogin = async (req, res, next) => {
+  console.log("Loggedin value:", res.locals.loggedin)
+  next()
+}
+
+
+// Util.checkLogin = async (req, res, next) => {
+//   if (res.locals.loggedin) {
+//     console.log("Loggedin:", res.locals.loggedin)
+
+//     next()
+//   } else {
+//     req.flash("notice", "Please log in.")
+//     return res.redirect("/account/login")
+//   }
+// }
 
 Util.messages = messages
 

@@ -5,6 +5,7 @@ const invController = require("../controllers/inventoryController")
 const utilities = require("../utilities")
 const classificationValidate = require("../utilities/classification-validation")
 const invValidate = require("../utilities/inventory-validation")
+const authUtil = require("../utilities/auth")
 
 
 router.get(
@@ -45,5 +46,21 @@ router.post(
   invValidate.checkInventoryData,
   utilities.handleErrors(invController.addInventory)
 )
+
+
+
+
+router.get(
+  "/",
+  authUtil.checkEmployeeOrAdmin,
+  utilities.handleErrors(invController.buildManagement)
+)
+
+router.get(
+  "/add-inventory",
+  authUtil.checkEmployeeOrAdmin,
+  utilities.handleErrors(invController.buildAddInventory)
+)
+
 
 module.exports = router
