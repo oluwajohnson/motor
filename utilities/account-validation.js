@@ -30,7 +30,25 @@ const checkUpdateData = async (req, res, next) => {
   next()
 }
 
+
+
+
+const registerRules = () => {
+  return [
+    body("account_password")
+      .isLength({ min: 12 })
+      .matches(/[A-Z]/)
+      .matches(/[0-9]/)
+      .matches(/[!@#$%^&*]/)
+      .withMessage(
+        "Password must be at least 12 characters and include 1 capital letter, 1 number, and 1 special character."
+      )
+  ]
+}
+
+
 module.exports = {
   updateRules,
-  checkUpdateData
+  checkUpdateData,
+  registerRules
 }

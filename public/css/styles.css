@@ -275,6 +275,67 @@ h4,h3{
 
 
 
+/* //// Register CSS */
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+}
+
+.form-title {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.form-container {
+  max-width: 500px;
+  margin: 30px auto;
+  padding: 25px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.form-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  padding: 8px;
+  font-size: 16px;
+}
+
+.toggle-btn {
+  margin-top: 8px;
+  padding: 6px;
+  cursor: pointer;
+}
+
+.password-hint {
+  font-size: 14px;
+  color: #555;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background-color: #005fa3;
+}
+
+
+
+
+
 
 
 @media (max-width: 768px) {

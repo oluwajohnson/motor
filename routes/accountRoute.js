@@ -28,21 +28,33 @@ router.post(
 // Login view
 router.get("/login", utilities.handleErrors(accountController.buildLogin))
 
-// router.get(
-//   "/",
-//   utilities.checkLogin,
-//   utilities.handleErrors(accountController.buildManagement)
-// )
-
-router.get("/", 
-    utilities.checkLogin,
-    accountController.buildManagement
+router.get(
+  "/",
+  utilities.checkLogin,
+  utilities.handleErrors(accountController.buildManagement)
 )
+
+// router.get("/", 
+//     // utilities.checkLogin,
+//     accountController.buildManagement
+// )
 
 router.get("/logout", (req, res) => {
   res.clearCookie("jwt")
   res.redirect("/")
 })
+
+router.post(
+  "/register",
+  utilities.handleErrors(accountController.registerAccount)
+)
+
+router.get(
+  "/register",
+  utilities.handleErrors(accountController.buildRegister)
+)
+
+
 
 
 

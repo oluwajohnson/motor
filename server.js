@@ -63,22 +63,6 @@ app.set("layout", "./layouts/layout")
 app.use(express.static("public"));
 
 
-
-
-
-// app.use(session({
-//   secret: "secret",
-//   resave: false,
-//   saveUninitialized: true
-// }))
-
-// app.use(flash())
-
-// app.use((req, res, next) => {
-//   res.locals.messages = req.flash()
-//   next()
-// })
-
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
@@ -134,24 +118,6 @@ app.use((err, req, res, next) => {
 
 
 
-
-
-
-
-
-
-// // Error Handling Middleware
-// app.use((err, req, res, next) => {
-//   console.error(err.stack)
-
-//   const status = err.status || 500
-//   const title = status === 404 ? "Page Not Found" : "Server Error"
-
-//   res.status(status).render("errors/error", {
-//     title,
-//     message: err.message,
-//   })
-// })
 
 
 

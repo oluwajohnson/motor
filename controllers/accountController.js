@@ -61,7 +61,58 @@ async function buildManagement(req, res) {
 }
 
 
+async function registerAccount(req, res) {
+  const {
+    account_firstname,
+    account_lastname,
+    account_email,
+    account_password
+  } = req.body
+
+  try {
+    // 🔐 HASH PASSWORD
+    const hashedPassword = await bcrypt.hash(account_password, 10)
+
+    // 💾 SAVE TO DATABASE
+    await accountModel.registerAccount(
+      account_firstname,
+      account_lastname,
+      account_email,
+      hashedPassword
+    )
+
+    req.flash("notice", "Registration successful. Please log in.")
+    res.redirect("/account/login")
+
+  } catch (error) {
+    res.status(500).render("account/register", {
+      title: "Register",
+      errors: [{ msg: "Registration failed." }]
+    })
+  }
+}
+
+async function buildRegister(req, res) {
+  res.render("account/register", {
+    title: "Register"
+  })
+}
+
+// const bcrypt = require("bcryptjs")
+
+// const hashedPassword = await bcrypt.hash(account_password, 10)
+
+// await accountModel.registerAccount(
+//   account_firstname,
+//   account_lastname,
+//   account_email,
+//   hashedPassword
+// )
+
+
 module.exports = {
+  buildRegister,
+  registerAccount,
   buildLogin,
   accountLogin,
   buildManagement

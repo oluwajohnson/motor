@@ -29,3 +29,47 @@ async function updatePassword(id, password) {
     WHERE account_id = $2`
   return await pool.query(sql, [password, id])
 }
+
+
+
+
+
+async function registerAccount(
+  account_firstname,
+  account_lastname,
+  account_email,
+  account_password
+) {
+  const sql = `
+    INSERT INTO account (
+      account_firstname,
+      account_lastname,
+      account_email,
+      account_password
+    )
+    VALUES ($1, $2, $3, $4)
+    RETURNING *
+  `
+
+  return await pool.query(sql, [
+    account_firstname,
+    account_lastname,
+    account_email,
+    account_password
+  ])
+}
+
+async function getAccountByEmail(account_email) {
+  const sql = "SELECT * FROM account WHERE account_email = $1"
+  return await pool.query(sql, [account_email])
+}
+
+module.exports = {
+  registerAccount,
+  getAccountByEmail,
+    getAccountById,
+    updateAccount,
+    updatePassword
+
+}
+

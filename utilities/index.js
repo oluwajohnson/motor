@@ -127,22 +127,18 @@ Util.handleErrors = (fn) => async (req, res, next) => {
 }
 
 
+// Util.checkLogin = async (req, res, next) => {
+//   console.log("Loggedin value:", res.locals.loggedin)
+//   next()
+// }
+
 Util.checkLogin = async (req, res, next) => {
-  console.log("Loggedin value:", res.locals.loggedin)
-  next()
+  if (res.locals.accountData) {
+    return next()
+  }
+  return res.redirect("/account/login")
 }
 
-
-// Util.checkLogin = async (req, res, next) => {
-//   if (res.locals.loggedin) {
-//     console.log("Loggedin:", res.locals.loggedin)
-
-//     next()
-//   } else {
-//     req.flash("notice", "Please log in.")
-//     return res.redirect("/account/login")
-//   }
-// }
 
 Util.messages = messages
 
