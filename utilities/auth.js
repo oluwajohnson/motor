@@ -3,24 +3,52 @@ const jwt = require("jsonwebtoken")
 
 // Check token on every request
 authUtil.checkJWTToken = (req, res, next) => {
-  if (req.cookies.jwt) {
-    try {
-      const decoded = jwt.verify(
-        req.cookies.jwt,
-        process.env.ACCESS_TOKEN_SECRET
-      )
+  if (!req.cookies.jwt) {
+    res.locals.loggedin = false
+    return next()
+  }
 
-      res.locals.loggedin = true
-      res.locals.accountData = decoded
-   
-    } catch (error) {
-      res.locals.loggedin = false
-    }
-  } else {
+  try {
+    const decoded = jwt.verify(
+      req.cookies.jwt,
+      process.env.ACCESS_TOKEN_SECRET
+    )
+
+    res.locals.loggedin = true
+    res.locals.accountData = decoded
+
+  } catch (err) {
+    console.error("JWT verify failed:", err.message)
     res.locals.loggedin = false
   }
+
   next()
 }
+
+
+
+
+
+
+// authUtil.checkJWTToken = (req, res, next) => {
+//   if (req.cookies.jwt) {
+//     try {
+//       const decoded = jwt.verify(
+//         req.cookies.jwt,
+//         process.env.ACCESS_TOKEN_SECRET
+//       )
+
+//       res.locals.loggedin = true
+//       res.locals.accountData = decoded
+   
+//     } catch (error) {
+//       res.locals.loggedin = false
+//     }
+//   } else {
+//     res.locals.loggedin = false
+//   }
+//   next()
+// }
 
 
 
