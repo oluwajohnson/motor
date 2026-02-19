@@ -59,7 +59,6 @@ async function accountManagement(req, res) {
   })
 }
 
-
 async function accountLogin(req, res) {
   const { account_email, account_password } = req.body
 
@@ -82,40 +81,38 @@ async function accountLogin(req, res) {
     accountData.account_password
   )
 
-
-  if (passwordMatch) {
-     console.log("✅ Password correct — LOGIN SUCCESS")
-
-  // 3️⃣ Store session
-  req.session.loggedin = true
-  req.session.accountData = accountData
-
-  const accessToken = jwt.sign({
-    account_id: accountData.account_id,
-    account_firstname: accountData.account_firstname,
-    account_privilege: accountData.account_privilege
-  },
-  process.env.ACCESS_TOKEN_SECRET,
-  { expiresIn: "1h" })
-
-  res.cookie("jwt", accessToken, { httpOnly: true })
-
-  return res.redirect("/account")
-}
-
-
   if (!passwordMatch) {
     console.log("❌ Password does NOT match")
     return res.send("Login failed: Incorrect password")
   }
 
- 
+  console.log("✅ Password correct — LOGIN SUCCESS")
 
-  // // 4️⃣ Redirect
-  // return res.redirect("/account")
+  // 3️⃣ Store session (optional but OK if you use it)
+  req.session.loggedin = true
+  req.session.accountData = accountData
+
+  // 4️⃣ Create JWT
+  const accessToken = jwt.sign(
+    {
+      account_id: accountData.account_id,
+      account_firstname: accountData.account_firstname,
+      account_privilege: accountData.account_privilege
+    },
+    process.env.ACCESS_TOKEN_SECRET,
+    { expiresIn: "1h" }
+  )
+
+  // ✅ IMPORTANT — FIXED COOKIE FOR RENDER / HTTPS
+  res.cookie("jwt", accessToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax"
+  })
+
+  // 5️⃣ Redirect to dashboard
+  return res.redirect("/account")
 }
-
-
 
 
 

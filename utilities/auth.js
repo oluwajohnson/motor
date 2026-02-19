@@ -30,47 +30,6 @@ authUtil.checkJWTToken = (req, res, next) => {
 
 
 
-// authUtil.checkJWTToken = (req, res, next) => {
-//   if (req.cookies.jwt) {
-//     try {
-//       const decoded = jwt.verify(
-//         req.cookies.jwt,
-//         process.env.ACCESS_TOKEN_SECRET
-//       )
-
-//       res.locals.loggedin = true
-//       res.locals.accountData = decoded
-   
-//     } catch (error) {
-//       res.locals.loggedin = false
-//     }
-//   } else {
-//     res.locals.loggedin = false
-//   }
-//   next()
-// }
-
-
-
-
-// authUtil.checkJWT = (req, res, next) => {
-
-//   const token = req.cookies.jwt
-
-//   if (!token) return next()
-
-//   try {
-//     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
-//     res.locals.accountData = decoded
-//     res.locals.loggedin = true
-//   } catch (err) {
-//     res.locals.loggedin = false
-//   }
-
-//   next()
-// }
-
-
 
 
 

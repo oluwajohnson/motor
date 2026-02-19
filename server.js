@@ -25,7 +25,7 @@ const accountRoute = require("./routes/accountRoute")
 
 
 const app = express();
-
+app.set("trust proxy", 1)
 
 
 
@@ -111,12 +111,6 @@ if (!process.env.ACCESS_TOKEN_SECRET) {
 }
 
 
-// 404 handler
-// app.use((req, res, next) => {
-//   const err = new Error("Sorry, page not found")
-//   err.status = 404
-//   next(err)
-// })
 
 
 
