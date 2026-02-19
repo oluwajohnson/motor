@@ -105,6 +105,11 @@ app.get("/test", (req, res) => {
   res.send("Server routing works")
 })
 
+if (!process.env.ACCESS_TOKEN_SECRET) {
+  console.error("FATAL ERROR: ACCESS_TOKEN_SECRET not set")
+  process.exit(1)
+}
+
 
 // 404 handler
 // app.use((req, res, next) => {
