@@ -7,6 +7,7 @@ const classificationValidate = require("../utilities/classification-validation")
 const invValidate = require("../utilities/inventory-validation")
 const authUtil = require("../utilities/auth")
 
+router.use(authUtil.checkEmployeeOrAdmin)
 
 router.get(
   "/type/:classification_id",
@@ -61,6 +62,13 @@ router.get(
   authUtil.checkEmployeeOrAdmin,
   utilities.handleErrors(invController.buildAddInventory)
 )
+
+
+// router.get(
+//   "/",
+//   authUtil.checkEmployeeOrAdmin,
+//   invController.buildManagement
+// )
 
 
 module.exports = router

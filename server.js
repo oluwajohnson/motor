@@ -50,6 +50,8 @@ app.use((req, res, next) => {
   res.locals.messages = req.flash()
   next()
 })
+
+
 /* ---------- END BLOCK ---------- */
 
 
@@ -72,6 +74,13 @@ app.use(async (req, res, next) => {
   next()
 })
 
+app.use((req, res, next) => {
+  res.locals.loggedin = req.session.loggedin || false
+  res.locals.accountData = req.session.accountData || null
+  next()
+})
+
+
 /* ***********************
  * Routes
  *************************/
@@ -88,7 +97,9 @@ app.use("/account", accountRoute)
 
 // app.use(errorRoute)
 
-
+app.get("/session-test", (req, res) => {
+  res.send(req.session)
+})
 
 app.get("/test", (req, res) => {
   res.send("Server routing works")
@@ -96,11 +107,11 @@ app.get("/test", (req, res) => {
 
 
 // 404 handler
-app.use((req, res, next) => {
-  const err = new Error("Sorry, page not found")
-  err.status = 404
-  next(err)
-})
+// app.use((req, res, next) => {
+//   const err = new Error("Sorry, page not found")
+//   err.status = 404
+//   next(err)
+// })
 
 
 

@@ -9,26 +9,42 @@ async function getAccountById(account_id) {
 
 
 //update account information
-async function updateAccount(id, firstname, lastname, email) {
+async function updateAccount(
+  account_id,
+  account_firstname,
+  account_lastname,
+  account_email,
+  account_privilege
+) {
   const sql = `
     UPDATE account
     SET account_firstname = $1,
         account_lastname = $2,
-        account_email = $3
-    WHERE account_id = $4
-    RETURNING *`
-  return await pool.query(sql, [firstname, lastname, email, id])
+        account_email = $3,
+        account_privilege = $4
+    WHERE account_id = $5
+  `
+
+  return await pool.query(sql, [
+    account_firstname,
+    account_lastname,
+    account_email,
+    account_privilege,
+    account_id
+  ])
 }
 
 
 //update account password
-async function updatePassword(id, password) {
+async function updatePassword(account_id, hashedPassword) {
   const sql = `
     UPDATE account
     SET account_password = $1
-    WHERE account_id = $2`
-  return await pool.query(sql, [password, id])
+    WHERE account_id = $2
+  `
+  return await pool.query(sql, [hashedPassword, account_id])
 }
+
 
 
 
@@ -38,16 +54,18 @@ async function registerAccount(
   account_firstname,
   account_lastname,
   account_email,
-  account_password
+  account_password,
+  account_privilege
 ) {
   const sql = `
     INSERT INTO account (
       account_firstname,
       account_lastname,
       account_email,
-      account_password
+      account_password,
+      account_privilege
     )
-    VALUES ($1, $2, $3, $4)
+    VALUES ($1, $2, $3, $4, $5)
     RETURNING *
   `
 
@@ -55,7 +73,8 @@ async function registerAccount(
     account_firstname,
     account_lastname,
     account_email,
-    account_password
+    account_password,
+    account_privilege
   ])
 }
 
@@ -63,6 +82,9 @@ async function getAccountByEmail(account_email) {
   const sql = "SELECT * FROM account WHERE account_email = $1"
   return await pool.query(sql, [account_email])
 }
+
+
+
 
 module.exports = {
   registerAccount,

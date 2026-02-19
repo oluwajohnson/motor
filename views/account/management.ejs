@@ -9,3 +9,11 @@
 <% } else { %>
   <h2>You are not logged in.</h2>
 <% } %>
+
+
+<% if (accountData.account_privilege === "Employee" || accountData.account_privilege === "Admin") { %>
+  <section>
+    <h2>Inventory Management</h2>
+    <a href="/inv">Manage Inventory</a>
+  </section>
+<% } %>

@@ -1,28 +1,49 @@
-<header class="site-header">
+<!-- <header class="site-header">
   <h1>CSE Motors</h1>
-  <!-- <% if (loggedin) { %>
-    <a href="/account/management">
+  
+  <div class="account-links">
+
+  <% if (loggedin) { %>
+    <a href="/account">
       Welcome <%= accountData.account_firstname %>
     </a>
     |
     <a href="/account/logout" class="account-link">Logout</a>
   <% } else { %>
     <a href="/account/login" class="account-link">My Account</a>
-  <% } %> -->
-
-<div class="account-links">
-<% if (loggedin) { %>
-  <a href="/account">
-    Welcome <%= accountData.account_firstname %>
-  </a>
-<% } else { %>
-  <a href="/account/login">Login</a>
-<% } %>
-
+  <% } %>
 </div>
 
 
+</header> -->
+
+
+
+<header class="site-header">
+  <h1>CSE Motors</h1>
+
+  <nav>
+
+    <% if (loggedin) { %>
+
+      <!-- Welcome link to account management -->
+      <a href="/account/management">
+        Welcome <%= accountData.account_firstname %>
+      </a>
+
+      <!-- Logout link -->
+      <a href="/account/logout">Logout</a>
+
+    <% } else { %>
+
+      <!-- My Account link (only when NOT logged in) -->
+      <a href="/account/login">My Account</a>
+
+    <% } %>
+
+  </nav>
 </header>
+
 
 
 

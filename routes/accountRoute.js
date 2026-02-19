@@ -7,6 +7,14 @@ const updateValidate = require("../utilities/account-validation")
 
 // router.get("/login", accountController.buildLogin)
 
+function checkLogin(req, res, next) {
+  if (!req.session.loggedin) {
+    return res.redirect("/account/login")
+  }
+  next()
+}
+
+
 router.get(
   "/update/:account_id",
   utilities.handleErrors(accountController.buildUpdateView)
@@ -17,6 +25,11 @@ router.post(
   updateValidate.updateRules(),
   updateValidate.checkUpdateData,
   utilities.handleErrors(accountController.updateAccount)
+)
+
+router.post(
+  "/update-password",
+  utilities.handleErrors(accountController.updatePassword)
 )
 
 
@@ -34,15 +47,15 @@ router.get(
   utilities.handleErrors(accountController.buildManagement)
 )
 
-// router.get("/", 
-//     // utilities.checkLogin,
-//     accountController.buildManagement
-// )
 
-router.get("/logout", (req, res) => {
-  res.clearCookie("jwt")
-  res.redirect("/")
-})
+router.get("/", checkLogin, accountController.accountManagement)
+
+// router.get("/logout", (req, res) => {
+//   res.clearCookie("jwt")
+//   res.redirect("/")
+// })
+
+router.get("/logout", accountController.logout)
 
 router.post(
   "/register",
@@ -55,7 +68,7 @@ router.get(
 )
 
 
-
+// router.get("/logout", accountController.logout)
 
 
 

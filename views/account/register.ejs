@@ -16,19 +16,29 @@
     <label for="account_email">Email</label>
     <input type="email" name="account_email" required />
   </div>
+  
+  <div class="form-group">
+    <label for="account_privilege">Account Privilege</label>
+    <select name="account_privilege" required>
+      <option value="Basic">Basic</option>
+      <option value="Employee">Employee</option>
+      <option value="Admin">Admin</option>
+    </select>
+  </div>
+
 
   <div class="form-group">
     <label for="account_password">Password</label>
     <input 
       type="password" 
-      name="account_password" 
-      id="password"
+      name="account_password"
+      id="account_password"
       required
       minlength="12"
       pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{12,}$"
       title="Must be at least 12 characters, include 1 capital letter, 1 number, and 1 special character."
     />
-    <button type="button" class="toggle-btn" onclick="togglePassword()">
+    <button type="button" class="toggle-btn" id="togglePassword" >
       Show Password
     </button>
   </div>
@@ -41,3 +51,19 @@
   <button type="submit" class="submit-btn">Register</button>
 
 </form>
+
+
+<script>
+  const toggle = document.getElementById("togglePassword");
+  const password = document.getElementById("account_password");
+
+  toggle.addEventListener("click", () => {
+    if (password.type === "password") {
+      password.type = "text";
+      toggle.textContent = "Hide Password";
+    } else {
+      password.type = "password";
+      toggle.textContent = "Show Password";
+    }
+  });
+</script>
